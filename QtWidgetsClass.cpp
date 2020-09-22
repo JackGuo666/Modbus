@@ -106,8 +106,22 @@ void QtWidgetsClass::on_pushButton_2_clicked()
 		return;
 	}
 
-	auto value = ui.tableWidget->item(currentrow, RESETVAR)->text().toInt();
-	CChannelData* pData = (CChannelData*)(value);
+	auto value = ui.tableWidget->item(currentrow, RESETVAR)->data(Qt::UserRole).toUInt();
+	CDeviceData* p = (CDeviceData*)(value);
+	auto& vecDev = m_pData->getDevData();
+	for (QVector<CDeviceData*>::iterator iter = vecDev.begin(); iter != vecDev.end();)
+	{
+		if ((*iter) == p)
+		{
+			delete (*iter);
+			vecDev.erase(iter);//É¾³ý¸ÃÐÐ
+		}
+		else
+		{
+			iter++;
+		}
+	}
+
 
 	ui.tableWidget->removeRow(currentrow);
 

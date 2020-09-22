@@ -136,7 +136,7 @@ void Channelsettings::setDeviceData(CDeviceData* pData)
 		QTableWidgetItem* Item4 = new QTableWidgetItem(QString::number(channelVec[i]->m_unReadOffsetAddr));
 		QTableWidgetItem* Item5 = new QTableWidgetItem(QString::number(channelVec[i]->m_unReadLength));
 		QTableWidgetItem* Item6 = new QTableWidgetItem(QString::number(channelVec[i]->m_unWriteOffsetAddr));
-		QTableWidgetItem* Item7 = new QTableWidgetItem(channelVec[i]->m_unWriteLength);
+		QTableWidgetItem* Item7 = new QTableWidgetItem(QString::number(channelVec[i]->m_unWriteLength));
 		QTableWidgetItem* Item8 = new QTableWidgetItem(channelVec[i]->m_strNote);
 
 		auto value = reinterpret_cast<std::uintptr_t>(channelVec[i]);
@@ -162,6 +162,23 @@ void Channelsettings::on_pushButton_2_clicked()
 		return;
 	}
 
+	std::uintptr_t i = ui.tableWidget->item(currentrow, 0)->data(Qt::UserRole).toUInt();
+	void* p = (void*)i;
+
+
+	auto& vecChannel = m_pData->getChannelVec();
+	for (QVector<CChannelData*>::iterator iter = vecChannel.begin(); iter != vecChannel.end();)
+	{
+		if ((*iter) == p)
+		{
+			delete (*iter);
+			vecChannel.erase(iter);//É¾³ý¸ÃÐÐ
+		}
+		else
+		{
+			iter++;
+		}
+	}
 
 	ui.tableWidget->removeRow(currentrow);
 }
