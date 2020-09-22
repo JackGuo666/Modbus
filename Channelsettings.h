@@ -5,7 +5,7 @@
 #include "ui_Channelsettings.h"
 
 #pragma execution_character_set("utf-8")
-
+//111
 class CDeviceData;
 
 class Channelsettings : public QDialog
