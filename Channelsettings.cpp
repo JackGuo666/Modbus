@@ -5,11 +5,11 @@
 #include<qtextedit.h>
 #include <qtablewidget.h>
 
-Channelsettings::Channelsettings(QDialog *parent)
+Channelsettings::Channelsettings(QDialog* parent)
 	: QDialog(parent), m_pData(nullptr)
 {
 	ui.setupUi(this);
-	
+
 
 	//test test
 	ui.tableWidget->clear();
@@ -27,7 +27,7 @@ Channelsettings::Channelsettings(QDialog *parent)
 	ui.tableWidget->setSelectionMode(QAbstractItemView::SingleSelection);//可以选中单个
 
 	//ui.tableWidget->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);    //x先自适应宽度
-	    //然后设置要根据内容使用宽度的列
+		//然后设置要根据内容使用宽度的列
 	ui.tableWidget->horizontalHeader()->setStretchLastSection(true);
 }
 
@@ -47,7 +47,7 @@ void Channelsettings::on_pushButton_clicked()
 	//userdata.setValue(variant)
 	for (int i = 0; i < 8; i++)
 	{
-		messagetype->addItem(functionnumber[i],variant[i]);
+		messagetype->addItem(functionnumber[i], variant[i]);
 	}
 	ui.tableWidget->setCellWidget(rowcount, 2, messagetype);
 	ui.tableWidget->horizontalHeader()->setSectionResizeMode(2, QHeaderView::ResizeToContents);
@@ -55,7 +55,7 @@ void Channelsettings::on_pushButton_clicked()
 
 	QTableWidgetItem* Item0 = new QTableWidgetItem(QString::number(rowcount));
 	QTableWidgetItem* Item1 = new QTableWidgetItem(QString("设备") + QString::number(rowcount));
-	QTableWidgetItem* Item2 = new QTableWidgetItem();
+	//QTableWidgetItem* Item2 = new QTableWidgetItem();
 	QTableWidgetItem* Item3 = new QTableWidgetItem();
 	QTableWidgetItem* Item4 = new QTableWidgetItem();
 	QTableWidgetItem* Item5 = new QTableWidgetItem();
@@ -65,7 +65,7 @@ void Channelsettings::on_pushButton_clicked()
 
 	ui.tableWidget->setItem(rowcount, ID, Item0);
 	ui.tableWidget->setItem(rowcount, NAME, Item1);
-	ui.tableWidget->setItem(rowcount, MSGTYPE, Item2);
+	//ui.tableWidget->setItem(rowcount, MSGTYPE, Item2);
 	ui.tableWidget->setItem(rowcount, POLLINGTIME, Item3);
 	ui.tableWidget->setItem(rowcount, READOFFSET, Item4);
 	ui.tableWidget->setItem(rowcount, READLENGTH, Item5);
@@ -74,11 +74,11 @@ void Channelsettings::on_pushButton_clicked()
 	ui.tableWidget->setItem(rowcount, NOTE, Item8);
 
 
-	auto &channelVec = m_pData->getChannelVec();
+	auto& channelVec = m_pData->getChannelVec();
 	CChannelData* pData = new CChannelData();
 	pData->m_unID = ui.tableWidget->item(rowcount, ID)->text().toUInt();
 	pData->m_strDeviceName = ui.tableWidget->item(rowcount, NAME)->text();
-	pData->m_ucMsgType = ui.tableWidget->item(rowcount, MSGTYPE)->text().toUInt();
+	//pData->m_ucMsgType = ui.tableWidget->item(rowcount, MSGTYPE)->text().toUInt();
 	pData->m_unPollingTime = ui.tableWidget->item(rowcount, POLLINGTIME)->text().toUInt();
 	pData->m_unReadOffsetAddr = ui.tableWidget->item(rowcount, READOFFSET)->text().toUInt();
 	pData->m_unReadLength = ui.tableWidget->item(rowcount, READLENGTH)->text().toUInt();
@@ -102,7 +102,56 @@ void Channelsettings::setDeviceData(CDeviceData* pData)
 {
 	m_pData = pData;
 
+	//初始化界面
+	auto &channelVec = m_pData->getChannelVec();
+	for (int i = 0; i < channelVec.count(); i++)
+	{
+		int nRow = ui.tableWidget->rowCount();
+		ui.tableWidget->insertRow(nRow);
 
+		QTableWidgetItem* Item0 = new QTableWidgetItem(QString::number(channelVec[i]->m_unID));
+		QTableWidgetItem* Item1 = new QTableWidgetItem(channelVec[i]->m_strDeviceName);
+
+		//=======================================
+		//QTableWidgetItem* Item2 = new QTableWidgetItem(channelVec[i]->m_ucMsgType);
+		QComboBox* messagetype = new QComboBox();
+		//QTextEdit* cycletime = new QTextEdit();
+		//QLineEdit* cycletime = new QLineEdit();
+		//ui.tableWidget->setCellWidget(rowcount, 3, cycletime);
+		int variant[8] = { 0x01,0x02,0x03,0x04,0x05,0x06,0x0f,0x10 };
+		QString functionnumber[8] = { "读多个位（线圈）-0x01","读多个位（离散输入）-0x02","读多个位（线圈）-0x03","读多个字（输入寄存器）-0x04","写单个位（线圈）-0x05","写单个字（寄存器）-0x06","写多个位（线圈）-0x0F"
+		,"写多个字（寄存器)-0x10" };
+		//QVariant userdata;
+		//userdata.setValue(variant)
+		for (int i = 0; i < 8; i++)
+		{
+			messagetype->addItem(functionnumber[i], variant[i]);
+		}
+		messagetype->setCurrentIndex(channelVec[i]->m_ucMsgType);
+		ui.tableWidget->setCellWidget(i, MSGTYPE, messagetype);
+		ui.tableWidget->horizontalHeader()->setSectionResizeMode(MSGTYPE, QHeaderView::ResizeToContents);
+		//========================================
+
+		QTableWidgetItem* Item3 = new QTableWidgetItem(QString::number(channelVec[i]->m_unPollingTime));
+		QTableWidgetItem* Item4 = new QTableWidgetItem(QString::number(channelVec[i]->m_unReadOffsetAddr));
+		QTableWidgetItem* Item5 = new QTableWidgetItem(QString::number(channelVec[i]->m_unReadLength));
+		QTableWidgetItem* Item6 = new QTableWidgetItem(QString::number(channelVec[i]->m_unWriteOffsetAddr));
+		QTableWidgetItem* Item7 = new QTableWidgetItem(channelVec[i]->m_unWriteLength);
+		QTableWidgetItem* Item8 = new QTableWidgetItem(channelVec[i]->m_strNote);
+
+		auto value = reinterpret_cast<std::uintptr_t>(channelVec[i]);
+		Item0->setData(Qt::UserRole, value);
+
+		ui.tableWidget->setItem(i, ID, Item0);
+		ui.tableWidget->setItem(i, NAME, Item1);
+		//ui.tableWidget->setItem(i, 2, Item2);
+		ui.tableWidget->setItem(i, POLLINGTIME, Item3);
+		ui.tableWidget->setItem(i, READOFFSET, Item4);
+		ui.tableWidget->setItem(i, READLENGTH, Item5);
+		ui.tableWidget->setItem(i, WRITEOFFSET, Item6);
+		ui.tableWidget->setItem(i, WRITELENGTH, Item7);
+		ui.tableWidget->setItem(i, NOTE, Item8);
+	}
 }
 
 void Channelsettings::on_pushButton_2_clicked()
@@ -126,42 +175,24 @@ void Channelsettings::on_pushButton_3_clicked()
 	{
 		//CChannelData* pData = new CChannelData();
 		//通道的值在复位变量的userrole上
-		CChannelData *pData = (CChannelData*)ui.tableWidget->item(i, ID)->data(Qt::UserRole).toInt();
+		CChannelData* pData = (CChannelData*)ui.tableWidget->item(i, ID)->data(Qt::UserRole).toInt();
 
 		pData->m_unID = ui.tableWidget->item(i, ID)->text().toUInt();
 		pData->m_strDeviceName = ui.tableWidget->item(i, NAME)->text();
-		pData->m_ucMsgType = ui.tableWidget->item(i, MSGTYPE)->text().toUInt();
-		pData->m_unPollingTime = ui.tableWidget->item(i, 3)->text().toUInt();
-		pData->m_unReadOffsetAddr = ui.tableWidget->item(i, 4)->text().toUInt();
-		pData->m_unReadLength = ui.tableWidget->item(i, 5)->text().toUInt();
-		pData->m_unWriteOffsetAddr = ui.tableWidget->item(i, 6)->text().toUInt();
-		pData->m_unWriteLength = ui.tableWidget->item(i, 7)->text().toUInt();
-		pData->m_strNote = ui.tableWidget->item(i, 7)->text();
-	}
-	//auto channelVecData = 
 
+		//
 
-	/*
-	auto& devData = m_pData->getDevData();
-	for (int i = 0; i < ui.tableWidget->rowCount(); i++)
-	{
-		//CDeviceData* pData = new CDeviceData();
-		//通道的值在复位变量的userrole上
-		auto pData = (CDeviceData*)ui.tableWidget->item(i, RESETVAR)->data(Qt::UserRole).toInt();
-
-		pData->m_unID = ui.tableWidget->item(i, 0)->text().toUInt();
-		pData->m_strDeviceName = ui.tableWidget->item(i, 1)->text();
-		pData->m_strIP = ui.tableWidget->item(i, 2)->text();
-		pData->m_ucSlaveAddr = ui.tableWidget->item(i, 3)->text().toUInt();
-		pData->m_unResponseTime = ui.tableWidget->item(i, 4)->text().toUInt();
-		pData->m_unTimeoutCount = ui.tableWidget->item(i, 5)->text().toUInt();
-		pData->m_unReconnectInterval = ui.tableWidget->item(i, 6)->text().toUInt();
-		pData->m_strResetVariable = ui.tableWidget->item(i, 7)->text().toUInt();
-
-
+		QComboBox* combox = (QComboBox*)ui.tableWidget->cellWidget(i, MSGTYPE);
+		pData->m_ucMsgType = combox->currentIndex();
+		//
+		pData->m_unPollingTime = ui.tableWidget->item(i, POLLINGTIME)->text().toUInt();
+		pData->m_unReadOffsetAddr = ui.tableWidget->item(i, READOFFSET)->text().toUInt();
+		pData->m_unReadLength = ui.tableWidget->item(i, READLENGTH)->text().toUInt();
+		pData->m_unWriteOffsetAddr = ui.tableWidget->item(i, WRITEOFFSET)->text().toUInt();
+		pData->m_unWriteLength = ui.tableWidget->item(i, WRITELENGTH)->text().toUInt();
+		pData->m_strNote = ui.tableWidget->item(i, NOTE)->text();
 	}
 	
-	*/
 	accept();
 }
 
