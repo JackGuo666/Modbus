@@ -1,0 +1,96 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{D9D6E242-F8AF-46E4-B9FD-80ECBC20BA3E}</UniqueIdentifier>
+      <Extensions>qrc;*</Extensions>
+      <ParseFiles>false</ParseFiles>
+    </Filter>
+    <Filter Include="Header Files\tree">
+      <UniqueIdentifier>{4220a7ce-cb5f-4752-b43e-aa8cde3c7d96}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\tree">
+      <UniqueIdentifier>{33fcd3f2-16f8-4f3d-8f48-d8f7d41e3f4e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\tree\client">
+      <UniqueIdentifier>{7d4e3f22-7c89-4f5d-ac73-040dcc715d9d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\tree\client">
+      <UniqueIdentifier>{950ae658-6b70-4061-8ae7-c00705b23e2d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ui">
+      <UniqueIdentifier>{3dc77946-499d-4a9e-8ee9-a7c3921f5f39}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ui\client">
+      <UniqueIdentifier>{8bb1b084-381c-487d-aa5d-5b8f2d166e23}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="modbus_global.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\mp\Ade.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="config_data.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <QtMoc Include="..\..\include\devicestudio\plugin_module.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="modbus_module.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="Channelsettings.h">
+      <Filter>Header Files\tree\client</Filter>
+    </QtMoc>
+    <QtMoc Include="Modbusindex.h">
+      <Filter>Header Files\tree\client</Filter>
+    </QtMoc>
+    <QtMoc Include="QtWidgetsClass.h">
+      <Filter>Header Files\tree\client</Filter>
+    </QtMoc>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="modbus_module.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Channelsettings.cpp">
+      <Filter>Source Files\tree\client</Filter>
+    </ClCompile>
+    <ClCompile Include="Modbusindex.cpp">
+      <Filter>Source Files\tree\client</Filter>
+    </ClCompile>
+    <ClCompile Include="QtWidgetsClass.cpp">
+      <Filter>Source Files\tree\client</Filter>
+    </ClCompile>
+    <ClCompile Include="config_data.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <QtUic Include="Channelsettings.ui">
+      <Filter>ui\client</Filter>
+    </QtUic>
+    <QtUic Include="Modbusindex.ui">
+      <Filter>ui\client</Filter>
+    </QtUic>
+    <QtUic Include="QtWidgetsClass.ui">
+      <Filter>ui\client</Filter>
+    </QtUic>
+  </ItemGroup>
+</Project>
