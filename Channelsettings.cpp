@@ -3,6 +3,7 @@
 #include<qcombobox.h>
 #include<qlineedit.h>
 #include<qtextedit.h>
+#include <qtablewidget.h>
 
 Channelsettings::Channelsettings(QDialog *parent)
 	: QDialog(parent), m_pData(nullptr)
@@ -51,6 +52,45 @@ void Channelsettings::on_pushButton_clicked()
 	ui.tableWidget->setCellWidget(rowcount, 2, messagetype);
 	ui.tableWidget->horizontalHeader()->setSectionResizeMode(2, QHeaderView::ResizeToContents);
 
+
+	QTableWidgetItem* Item0 = new QTableWidgetItem(QString::number(rowcount));
+	QTableWidgetItem* Item1 = new QTableWidgetItem(QString("设备") + QString::number(rowcount));
+	QTableWidgetItem* Item2 = new QTableWidgetItem();
+	QTableWidgetItem* Item3 = new QTableWidgetItem();
+	QTableWidgetItem* Item4 = new QTableWidgetItem();
+	QTableWidgetItem* Item5 = new QTableWidgetItem();
+	QTableWidgetItem* Item6 = new QTableWidgetItem();
+	QTableWidgetItem* Item7 = new QTableWidgetItem();
+	QTableWidgetItem* Item8 = new QTableWidgetItem();
+
+	ui.tableWidget->setItem(rowcount, ID, Item0);
+	ui.tableWidget->setItem(rowcount, NAME, Item1);
+	ui.tableWidget->setItem(rowcount, MSGTYPE, Item2);
+	ui.tableWidget->setItem(rowcount, POLLINGTIME, Item3);
+	ui.tableWidget->setItem(rowcount, READOFFSET, Item4);
+	ui.tableWidget->setItem(rowcount, READLENGTH, Item5);
+	ui.tableWidget->setItem(rowcount, WRITEOFFSET, Item6);
+	ui.tableWidget->setItem(rowcount, WRITELENGTH, Item7);
+	ui.tableWidget->setItem(rowcount, NOTE, Item8);
+
+
+	auto &channelVec = m_pData->getChannelVec();
+	CChannelData* pData = new CChannelData();
+	pData->m_unID = ui.tableWidget->item(rowcount, ID)->text().toUInt();
+	pData->m_strDeviceName = ui.tableWidget->item(rowcount, NAME)->text();
+	pData->m_ucMsgType = ui.tableWidget->item(rowcount, MSGTYPE)->text().toUInt();
+	pData->m_unPollingTime = ui.tableWidget->item(rowcount, POLLINGTIME)->text().toUInt();
+	pData->m_unReadOffsetAddr = ui.tableWidget->item(rowcount, READOFFSET)->text().toUInt();
+	pData->m_unReadLength = ui.tableWidget->item(rowcount, READLENGTH)->text().toUInt();
+	pData->m_unWriteOffsetAddr = ui.tableWidget->item(rowcount, WRITEOFFSET)->text().toUInt();
+	pData->m_unWriteLength = ui.tableWidget->item(rowcount, WRITELENGTH)->text().toUInt();
+	pData->m_strNote = ui.tableWidget->item(rowcount, NOTE)->text();
+
+	channelVec.push_back(pData);
+
+	auto value = reinterpret_cast<std::uintptr_t>(pData);
+	ui.tableWidget->item(rowcount, ID)->setData(Qt::UserRole, value);
+
 }
 
 Channelsettings::~Channelsettings()
@@ -61,6 +101,8 @@ Channelsettings::~Channelsettings()
 void Channelsettings::setDeviceData(CDeviceData* pData)
 {
 	m_pData = pData;
+
+
 }
 
 void Channelsettings::on_pushButton_2_clicked()
@@ -82,9 +124,19 @@ void Channelsettings::on_pushButton_3_clicked()
 	auto channelVec = m_pData->getChannelVec();
 	for (int i = 0; i < ui.tableWidget->rowCount(); i++)
 	{
-		CChannelData* pData = new CChannelData();
+		//CChannelData* pData = new CChannelData();
 		//通道的值在复位变量的userrole上
-		//auto pData = (CDeviceData*)ui.tableWidget->item(i, RESETVAR)->data(Qt::UserRole).toInt();
+		CChannelData *pData = (CChannelData*)ui.tableWidget->item(i, ID)->data(Qt::UserRole).toInt();
+
+		pData->m_unID = ui.tableWidget->item(i, ID)->text().toUInt();
+		pData->m_strDeviceName = ui.tableWidget->item(i, NAME)->text();
+		pData->m_ucMsgType = ui.tableWidget->item(i, MSGTYPE)->text().toUInt();
+		pData->m_unPollingTime = ui.tableWidget->item(i, 3)->text().toUInt();
+		pData->m_unReadOffsetAddr = ui.tableWidget->item(i, 4)->text().toUInt();
+		pData->m_unReadLength = ui.tableWidget->item(i, 5)->text().toUInt();
+		pData->m_unWriteOffsetAddr = ui.tableWidget->item(i, 6)->text().toUInt();
+		pData->m_unWriteLength = ui.tableWidget->item(i, 7)->text().toUInt();
+		pData->m_strNote = ui.tableWidget->item(i, 7)->text();
 	}
 	//auto channelVecData = 
 
@@ -108,8 +160,8 @@ void Channelsettings::on_pushButton_3_clicked()
 
 
 	}
+	
 	*/
-
 	accept();
 }
 

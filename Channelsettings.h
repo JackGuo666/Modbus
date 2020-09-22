@@ -12,7 +12,8 @@ class Channelsettings : public QDialog
 {
 	Q_OBJECT
 
-		enum{};
+		enum{ID, NAME, MSGTYPE, POLLINGTIME, READOFFSET, READLENGTH, 
+					WRITEOFFSET, WRITELENGTH, NOTE};
 public:
 	Channelsettings(QDialog *parent = Q_NULLPTR);
 	~Channelsettings();
