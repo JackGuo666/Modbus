@@ -10,7 +10,7 @@ QtWidgetsClass::QtWidgetsClass(QWidget *parent)
 	ui.setupUi(this);
 
 	ui.tableWidget->clear();
-	ui.tableWidget->setColumnCount(9);
+	ui.tableWidget->setColumnCount(9);;
 
 
 	QStringList headers;
